@@ -12,14 +12,14 @@ var services = builder.Services;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
                        ?? throw new KeyNotFoundException(" DefaultConnection is not found in Configuration");
 
-services.AddDbContext<IdentityDbContext>(options => options.UseNpgsql(connectionString, 
-        b=> b.MigrationsAssembly("BlueCube.Identity") ));
+services.AddDbContext<IdentityDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("BlueCube.Identity")));
 
 services.AddIdentity<IdentityUser,IdentityRole>()
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped(typeof(IIdentityService), typeof(IdentityService));
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddHostedService<MigrationService>();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();
