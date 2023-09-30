@@ -1,7 +1,7 @@
-# version: '3.4'
+version: '3.4'
 
-# services:
-#   bluecube.identity:
+services:
+  bluecube.identity:
     # environment:
     #   - ASPNETCORE_ENVIRONMENT=Development
     #   - ASPNETCORE_HTTP_PORTS=8080
@@ -9,6 +9,6 @@
     # ports:
     #   - "8080"
     #   - "8081"
-    # volumes:
-    #   - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
-    #   - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
+    volumes:
+      - ${APPDATA}/Microsoft/UserSecrets:/home/app/.microsoft/usersecrets:ro
+      - ${APPDATA}/ASP.NET/Https:/home/app/.aspnet/https:ro
