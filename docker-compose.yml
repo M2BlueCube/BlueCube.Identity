@@ -3,6 +3,7 @@ version: '3.4'
 services:
   bluecube.identity:
     image: ${DOCKER_REGISTRY-}bluecubeidentity
+    restart: always
     build:
       context: .
       dockerfile: BlueCube.Identity/Dockerfile
