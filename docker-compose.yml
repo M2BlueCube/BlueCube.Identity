@@ -1,0 +1,30 @@
+version: '3.4'
+
+services:
+  bluecube.identity:
+    image: ${DOCKER_REGISTRY-}bluecubeidentity
+    build:
+      context: .
+      dockerfile: BlueCube.Identity/Dockerfile
+    environment:
+      ASPNETCORE_ENVIRONMENT: Development
+      ASPNETCORE_URLS: https://+:443;http://+:80
+      ASPNETCORE_Kestrel__Certificates__Default__Path: /https/cert.pem
+      ASPNETCORE_Kestrel__Certificates__Default__KeyPath: /https/privkey.pem
+      ConnectionStrings__DefaultConnection: ${ConnectionString}
+      Jwt__Key: ${JwtKey}
+    ports:
+      - "8080:80"
+      - "8081:443"
+    volumes:
+      - ~/.ssh:/https:ro
+      - ${APPDATA}/Microsoft/UserSecrets:/root/.microsoft/usersecrets:ro
+    networks:
+      - backend
+      - db_network
+
+networks:
+  backend:
+  db_network:
+    name: sql-network
+    external: true

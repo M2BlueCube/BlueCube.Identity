@@ -18,7 +18,8 @@ services.AddIdentity<IdentityUser,IdentityRole>()
     .AddEntityFrameworkStores<IdentityDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped(typeof(IIdentityService), typeof(IdentityService));
+builder.Services.AddScoped<IIdentityService, IdentityService>();
+builder.Services.AddHostedService<MigrationService>();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();
