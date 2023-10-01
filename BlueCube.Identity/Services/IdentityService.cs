@@ -65,8 +65,8 @@ public class IdentityService : IIdentityService
     public async Task RegisterAsync(string username, string password)
     { 
         var user = await _userManager.FindByNameAsync(username);
-        if (user is not null)
-            throw new DuplicateNameException("Username already exist");
+        if (user is not null) throw new DuplicateNameException("Username already exist");
+
         user = new() { UserName = username };
         var result = await _userManager.CreateAsync(user, password);
         if (!result.Succeeded)
