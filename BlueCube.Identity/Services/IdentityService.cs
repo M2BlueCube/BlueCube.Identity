@@ -3,39 +3,54 @@ using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
-using BlueCube.Identity.Services.Contract;
+using BlueCube.Identity.Data;
 using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 
 namespace BlueCube.Identity.Services;
 
 public class IdentityService : IIdentityService
 {
-    private readonly UserManager<IdentityUser> _userManager;
+    private readonly UserManager<User> _userManager;
+    private readonly IRsaService _rsaService;
 
     private readonly string _jwtSecretKey;
-    public IdentityService(UserManager<IdentityUser> userManager, IConfiguration config)
+    public IdentityService(UserManager<User> userManager, IConfiguration config, IRsaService rsaService)
     {
         _userManager = userManager;
+        _rsaService = rsaService;
         _jwtSecretKey = config["Jwt:Key"] ?? string.Empty;
     }
 
-    public async Task<string> AuthenticateAsync(string username, string password)
+    public async Task RegisterAsync(string publicKey , string signature)
     {
-        var user = await _userManager.FindByNameAsync(username);
+        if (!_rsaService.Verify(publicKey, publicKey, signature))
+            throw new InvalidCredentialException("invalid signature");
+        var user = new User{ UserName = Guid.NewGuid().ToString() , PublicKey = publicKey};
+        var result = await _userManager.CreateAsync(user);
+        if (!result.Succeeded)
+            throw new Exception(string.Join(',', result.Errors.Select(e => $"{e.Code} : {e.Description}")));
+    }
+    public async Task<string> AuthenticateAsync(string publicKey , string signature)
+    {
+        if (!_rsaService.Verify(publicKey, publicKey, signature))
+            throw new InvalidCredentialException("invalid signature");
+        var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PublicKey == publicKey);
         if (user is null)
-            throw new KeyNotFoundException("Username doesn't exist");
-        var isPasswordVerified = await _userManager.CheckPasswordAsync(user, password);
-        if (!isPasswordVerified)
-            throw new InvalidCredentialException("Invalid password");
-
+            throw new KeyNotFoundException("the publicKey didn't register");
         var roles = await _userManager.GetRolesAsync(user);
-        var token = GenerateToken(user.Id, user.UserName!, roles);
-        return token;
+        var token = GenerateToken(user, roles);
+        var encryptedToken = _rsaService.Encrypt(token, publicKey) ?? 
+                             throw new Exception("encryption was failed");
+        return encryptedToken;
     }
 
-    private string GenerateToken(string userId, string userName, IEnumerable<string> roles)
+    public Task<User?> GetUserAsync(string userId) => _userManager.FindByIdAsync(userId);
+
+
+    private string GenerateToken(User user, IEnumerable<string> roles)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_jwtSecretKey);
@@ -43,8 +58,9 @@ public class IdentityService : IIdentityService
         
         var claims = new List<Claim>
         {
-            new (ClaimTypes.NameIdentifier, userId),
-            new (ClaimTypes.Name, userName)
+            new (ClaimTypes.NameIdentifier, user.Id),
+            new (ClaimTypes.Name, user.UserName!),
+            new (ClaimTypes.Rsa, user.PublicKey)
         };
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
         
@@ -61,15 +77,5 @@ public class IdentityService : IIdentityService
         var jwt = tokenHandler.WriteToken(token);
 
         return jwt;
-    }
-    public async Task RegisterAsync(string username, string password)
-    { 
-        var user = await _userManager.FindByNameAsync(username);
-        if (user is not null) throw new DuplicateNameException("Username already exist");
-
-        user = new() { UserName = username };
-        var result = await _userManager.CreateAsync(user, password);
-        if (!result.Succeeded)
-            throw new Exception(string.Join(',', result.Errors.Select(e => $"{e.Code} : {e.Description}")));
     }
 }
