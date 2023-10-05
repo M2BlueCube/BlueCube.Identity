@@ -7,4 +7,6 @@ public interface IRsaService
     string? Decrypt(string encryptedText, string privateKey);
     string? Sign(string text, string privateKey);
     bool Verify(string text, string publicKey, string signature );
+    string GetPublicKeyFromPrivateKey(string privateKey);
+    string GetNormalizedPublicKey(string publicKey);
 }

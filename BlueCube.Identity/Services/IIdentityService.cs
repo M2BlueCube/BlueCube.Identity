@@ -1,6 +1,4 @@
 using BlueCube.Identity.Data;
-using BlueCube.Identity.Dto.Requests;
-using BlueCube.Identity.Dto.Responses;
 
 namespace BlueCube.Identity.Services;
 

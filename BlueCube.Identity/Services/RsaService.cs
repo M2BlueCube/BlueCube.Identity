@@ -88,13 +88,21 @@ public class RsaService : IRsaService
         }
     }
     
-    public static string GetPublicKeyFromPrivateKey(string privateKey)
+    public string GetPublicKeyFromPrivateKey(string privateKey)
     {
         var rsa = new RSACryptoServiceProvider();
         rsa.FromXmlString(privateKey);
         var publicKey = rsa.ToXmlString(false);
         return publicKey;
     }
+    public string GetNormalizedPublicKey(string publicKey)
+    {
+        var rsa = new RSACryptoServiceProvider();
+        rsa.FromXmlString(publicKey);
+        var normalizedPublicKey = rsa.ToXmlString(false);
+        return normalizedPublicKey;
+    }
+    
     private static RSA CreateFromKey(string key)
     {
         var rsa = new RSACryptoServiceProvider();

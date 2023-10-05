@@ -17,48 +17,19 @@ public class IdentityController : ControllerBase
     public IdentityController(IIdentityService identityService)
     {
         _identityService = identityService;
-        rsa = new RsaService();
-        (publicKey, privateKey) = rsa.CreateKeys();
     }
-
-    private RsaService rsa;
-    private string publicKey;
-    private string privateKey;
     [HttpPost]
-    public async Task<ActionResult> Signup(SignupRequest request)
+    public async Task<ActionResult> Register(LoginRequest request)
     {
-        // Just for test
-        request = new SignupRequest()
-        {
-            PublicKey = publicKey,
-            Signature = rsa.Sign(publicKey, privateKey)
-        };
-        
-        await _identityService.RegisterAsync(request.PublicKey, request.Signature);
-
-        // Just for test
-        request = new SignupRequest()
-        {
-            PublicKey = publicKey,
-            Signature = privateKey
-        };
-        return Ok(request);
+        await _identityService.RegisterAsync(request.PublicKey, request.Signature!);
+        return Ok();
     }
     
     [HttpPost]
     public async Task<ActionResult<LoginResponse>> Login(LoginRequest request)
     {
-  
-        // Just for test
-        var privateKey = request.Signature;
-        var signature = rsa.Sign(request.PublicKey,privateKey);
-        
-        var token = await _identityService.AuthenticateAsync(request.PublicKey, signature);
-        
-        // Just for test
-        var decryptedToken = rsa.Decrypt(token, privateKey);
-            
-        return Ok(new LoginResponse(){  Token = decryptedToken});
+        var token = await _identityService.AuthenticateAsync(request.PublicKey, request.Signature);
+        return Ok(new LoginResponse(){  Token = token});
     }
     
     [HttpGet]

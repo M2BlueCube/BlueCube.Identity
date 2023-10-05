@@ -1,5 +1,3 @@
-using System.ComponentModel.DataAnnotations;
-
 namespace BlueCube.Identity.Dto;
 
 public class UserDto

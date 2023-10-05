@@ -1,10 +1,8 @@
-using System.Data;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Authentication;
 using System.Security.Claims;
 using System.Text;
 using BlueCube.Identity.Data;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -21,13 +19,12 @@ public class IdentityService : IIdentityService
     {
         _userManager = userManager;
         _rsaService = rsaService;
-        _jwtSecretKey = config["Jwt:Key"] ?? string.Empty;
+        _jwtSecretKey = config["Jwt:Key"] ?? throw new Exception("Jwt secret key is null");
     }
 
     public async Task RegisterAsync(string publicKey , string signature)
     {
-        if (!_rsaService.Verify(publicKey, publicKey, signature))
-            throw new InvalidCredentialException("invalid signature");
+        Verify(publicKey, signature);
         var user = new User{ UserName = Guid.NewGuid().ToString() , PublicKey = publicKey};
         var result = await _userManager.CreateAsync(user);
         if (!result.Succeeded)
@@ -35,8 +32,7 @@ public class IdentityService : IIdentityService
     }
     public async Task<string> AuthenticateAsync(string publicKey , string signature)
     {
-        if (!_rsaService.Verify(publicKey, publicKey, signature))
-            throw new InvalidCredentialException("invalid signature");
+        Verify(publicKey, signature);
         var user = await _userManager.Users.FirstOrDefaultAsync(u => u.PublicKey == publicKey);
         if (user is null)
             throw new KeyNotFoundException("the publicKey didn't register");
@@ -46,16 +42,20 @@ public class IdentityService : IIdentityService
                              throw new Exception("encryption was failed");
         return encryptedToken;
     }
-
     public Task<User?> GetUserAsync(string userId) => _userManager.FindByIdAsync(userId);
-
-
+    
+    private void Verify(string publicKey, string signature)
+    {
+        if (publicKey != _rsaService.GetNormalizedPublicKey(publicKey))
+            throw new InvalidCastException("public Key is not normal");
+        if (!_rsaService.Verify(publicKey, publicKey, signature))
+            throw new InvalidCredentialException("invalid signature");
+    }
     private string GenerateToken(User user, IEnumerable<string> roles)
     {
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.UTF8.GetBytes(_jwtSecretKey);
         var expiresDate = DateTime.UtcNow.AddDays(7);
-        
         var claims = new List<Claim>
         {
             new (ClaimTypes.NameIdentifier, user.Id),
@@ -63,7 +63,6 @@ public class IdentityService : IIdentityService
             new (ClaimTypes.Rsa, user.PublicKey)
         };
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
-        
         var tokenDescriptor = new SecurityTokenDescriptor
         {
             Subject = new ClaimsIdentity(claims),
@@ -71,11 +70,8 @@ public class IdentityService : IIdentityService
             SigningCredentials = 
                 new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
-        
         var token = tokenHandler.CreateToken(tokenDescriptor);
-
         var jwt = tokenHandler.WriteToken(token);
-
         return jwt;
     }
 }
