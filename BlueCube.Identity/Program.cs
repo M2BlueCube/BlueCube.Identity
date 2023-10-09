@@ -1,8 +1,11 @@
+using System.Text;
+using BlueCube.Identity.Data;
 using BlueCube.Identity.Services;
-using BlueCube.Identity.Services.Contract;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
@@ -12,14 +15,15 @@ var services = builder.Services;
 var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
                        ?? throw new KeyNotFoundException(" DefaultConnection is not found in Configuration");
 
-services.AddDbContext<IdentityDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("BlueCube.Identity")));
+services.AddDbContext<BlueCubeIdentityDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("BlueCube.Identity")));
 
-services.AddIdentity<IdentityUser,IdentityRole>()
-    .AddEntityFrameworkStores<IdentityDbContext>()
+services.AddIdentity<User,IdentityRole>()
+    .AddEntityFrameworkStores<BlueCubeIdentityDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddHostedService<MigrationService>();
+services.AddScoped<IIdentityService, IdentityService>();
+services.AddHostedService<MigrationService>();
+services.AddScoped<IRsaService, RsaService>();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();

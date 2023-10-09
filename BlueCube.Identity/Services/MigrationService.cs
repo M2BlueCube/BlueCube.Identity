@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection.Metadata.Ecma335;
+using BlueCube.Identity.Data;
 
 namespace BlueCube.Identity.Services
 {
@@ -18,7 +19,7 @@ namespace BlueCube.Identity.Services
         public async Task StartAsync(CancellationToken cancellationToken)
         {
             using var scope = _serviceProvider.CreateAsyncScope();
-            using var db = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+            using var db = scope.ServiceProvider.GetRequiredService<BlueCubeIdentityDbContext>();
 
             var migrations = await db.Database.GetPendingMigrationsAsync(cancellationToken);
 

@@ -31,6 +31,7 @@ namespace BlueCube.Identity.Migrations
                 columns: table => new
                 {
                     Id = table.Column<string>(type: "text", nullable: false),
+                    PublicKey = table.Column<string>(type: "text", nullable: false),
                     UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
                     Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
@@ -187,6 +188,12 @@ namespace BlueCube.Identity.Migrations
                 name: "EmailIndex",
                 table: "AspNetUsers",
                 column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUsers_PublicKey",
+                table: "AspNetUsers",
+                column: "PublicKey",
+                unique: true);
 
             migrationBuilder.CreateIndex(
                 name: "UserNameIndex",
