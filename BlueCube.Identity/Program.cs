@@ -5,17 +5,22 @@ using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using Microsoft.OpenApi.Models;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+var config = builder.Configuration;
 
 // Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
+var connectionString = config.GetConnectionString("DefaultConnection") 
                        ?? throw new KeyNotFoundException(" DefaultConnection is not found in Configuration");
 
-services.AddDbContext<BlueCubeIdentityDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("BlueCube.Identity")));
+var jwtKey = Encoding.UTF8.GetBytes(config["Jwt:Key"] 
+                                    ?? throw new KeyNotFoundException("Jwt secret key is null"));
+
+services.AddDbContext<BlueCubeIdentityDbContext>(options =>
+    options.UseNpgsql(connectionString, b => 
+        b.MigrationsAssembly("BlueCube.Identity")));
 
 services.AddIdentity<User,IdentityRole>()
     .AddEntityFrameworkStores<BlueCubeIdentityDbContext>()
@@ -27,6 +32,24 @@ services.AddScoped<IRsaService, RsaService>();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();
+services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(jwtKey),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
 services.AddSwaggerGen();
 
 var app = builder.Build();
