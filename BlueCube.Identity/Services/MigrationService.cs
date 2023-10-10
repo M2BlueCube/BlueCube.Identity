@@ -17,8 +17,8 @@ namespace BlueCube.Identity.Services
 
         public async Task StartAsync(CancellationToken cancellationToken)
         {
-            using var scope = _serviceProvider.CreateAsyncScope();
-            using var db = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
+            await using var scope = _serviceProvider.CreateAsyncScope();
+            await using var db = scope.ServiceProvider.GetRequiredService<IdentityDbContext>();
 
             var migrations = await db.Database.GetPendingMigrationsAsync(cancellationToken);
 

@@ -1,5 +1,6 @@
 using BlueCube.Identity.Services;
 using BlueCube.Identity.Services.Contract;
+using LiteChat.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -24,6 +25,8 @@ builder.Services.AddHostedService<MigrationService>();
 services.AddControllers();
 services.AddEndpointsApiExplorer();
 services.AddSwaggerGen();
+
+builder.Host.AddOrleansHost();
 
 var app = builder.Build();
 
