@@ -2,6 +2,7 @@ using System.Text;
 using BlueCube.Identity.Data;
 using BlueCube.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using LiteChat.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -51,6 +52,8 @@ services.AddAuthentication(x =>
     });
 
 services.AddSwaggerGen();
+
+builder.Host.AddOrleansHost();
 
 var app = builder.Build();
 

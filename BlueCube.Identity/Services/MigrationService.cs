@@ -1,34 +1,22 @@
-﻿
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
-using System.Reflection.Metadata.Ecma335;
+﻿using Microsoft.EntityFrameworkCore;
 using BlueCube.Identity.Data;
 
-namespace BlueCube.Identity.Services
+namespace BlueCube.Identity.Services;
+
+public class MigrationService(IServiceProvider serviceProvider) : IHostedService
 {
-    public class MigrationService : IHostedService
+    public async Task StartAsync(CancellationToken cancellationToken)
     {
-        private readonly IServiceProvider _serviceProvider;
+        await using var scope = serviceProvider.CreateAsyncScope();
+        await using var db = scope.ServiceProvider.GetRequiredService<BlueCubeIdentityDbContext>();
 
-        public MigrationService(IServiceProvider serviceProvider)
+        var migrations = await db.Database.GetPendingMigrationsAsync(cancellationToken);
+
+        if (migrations.Any())
         {
-            _serviceProvider = serviceProvider;
+            await db.Database.MigrateAsync(cancellationToken);
         }
-
-        public async Task StartAsync(CancellationToken cancellationToken)
-        {
-            using var scope = _serviceProvider.CreateAsyncScope();
-            using var db = scope.ServiceProvider.GetRequiredService<BlueCubeIdentityDbContext>();
-
-            var migrations = await db.Database.GetPendingMigrationsAsync(cancellationToken);
-
-            if (migrations.Any())
-            {
-                await db.Database.MigrateAsync(cancellationToken);
-            }
-        }
-
-        public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;        
     }
+
+    public Task StopAsync(CancellationToken cancellationToken) => Task.CompletedTask;        
 }
