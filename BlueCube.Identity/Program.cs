@@ -2,7 +2,6 @@ using System.Text;
 using BlueCube.Identity.Data;
 using BlueCube.Identity.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using BlueCube.Identity.Services.Contract;
 using LiteChat.Extensions;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
