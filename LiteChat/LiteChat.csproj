@@ -11,11 +11,4 @@
       <PackageReference Include="Microsoft.Orleans.Server" Version="7.2.1" />
     </ItemGroup>
 
-    <ItemGroup>
-      <Reference Include="Microsoft.AspNetCore">
-        <HintPath>..\..\..\..\..\..\Program Files\dotnet\shared\Microsoft.AspNetCore.App\8.0.0-rc.1.23421.29\Microsoft.AspNetCore.dll</HintPath>
-      </Reference>
-      <Reference Include="Microsoft.AspNetCore.Hosting" />
-    </ItemGroup>
-
 </Project>
