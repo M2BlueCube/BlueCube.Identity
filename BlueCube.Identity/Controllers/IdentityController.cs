@@ -40,12 +40,7 @@ public class IdentityController : ControllerBase
         if (string.IsNullOrEmpty(userId))
             throw new KeyNotFoundException(ClaimTypes.NameIdentifier + " is not in the Claims");
         var user = await _identityService.GetUserAsync(userId) ?? throw new KeyNotFoundException("some thing went wrong");
-        var userDto = new UserDto()
-        {
-            UserId = user.Id,
-            UserName = user.UserName!,
-            PublicKey = user.PublicKey
-        };
+        var userDto = new UserDto(user.Id, user.UserName!, user.PublicKey);
         return Ok(userDto);
     }
 
