@@ -16,7 +16,10 @@ public sealed class LiteChatGrain : Grain, ILiteChat
     {
         var chatId = this.GetPrimaryKey();
         var date = DateOnly.FromDateTime(DateTime.UtcNow);
-        var maxId = _message.Where(m => m.Day == date).Max(x => x.Id);
+
+        var todaysMessage = _message.Where(m => m.Day == date);
+
+        var maxId = todaysMessage.Any() ? todaysMessage.Max(x => x.Id) : 0;
         var message = new ChatMessageEventDto(maxId + 1, command.From, command.To, chatId, command.Message,
             DateTime.UtcNow);
         _message.Add(message);
