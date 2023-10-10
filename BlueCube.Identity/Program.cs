@@ -1,9 +1,56 @@
+using System.Text;
+using BlueCube.Identity.Data;
+using BlueCube.Identity.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
+
 var builder = WebApplication.CreateBuilder(args);
+var services = builder.Services;
+var config = builder.Configuration;
 
 // Add services to the container.
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
+
+var connectionString = config.GetConnectionString("IdentityConnection") 
+                       ?? throw new KeyNotFoundException(" IdentityConnection is not found in Configuration");
+
+var jwtKey = Encoding.UTF8.GetBytes(config["Jwt:Key"] 
+                                    ?? throw new KeyNotFoundException("Jwt secret key is null"));
+
+services.AddDbContext<BlueCubeIdentityDbContext>(options =>
+    options.UseNpgsql(connectionString, b => 
+        b.MigrationsAssembly("BlueCube.Identity")));
+
+services.AddIdentity<User,IdentityRole>()
+    .AddEntityFrameworkStores<BlueCubeIdentityDbContext>()
+    .AddDefaultTokenProviders();
+
+services.AddScoped<IIdentityService, IdentityService>();
+services.AddHostedService<MigrationService>();
+services.AddScoped<IRsaService, RsaService>();
+
+services.AddControllers();
+services.AddEndpointsApiExplorer();
+services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(jwtKey),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
+services.AddSwaggerGen();
 
 var app = builder.Build();
 
@@ -16,29 +63,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-var summaries = new[]
-{
-    "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-};
-
-app.MapGet("/weatherforecast", () =>
-    {
-        var forecast = Enumerable.Range(1, 5).Select(index =>
-                new WeatherForecast
-                (
-                    DateOnly.FromDateTime(DateTime.Now.AddDays(index)),
-                    Random.Shared.Next(-20, 55),
-                    summaries[Random.Shared.Next(summaries.Length)]
-                ))
-            .ToArray();
-        return forecast;
-    })
-    .WithName("GetWeatherForecast")
-    .WithOpenApi();
+app.UseAuthentication();
+app.UseAuthorization();
+app.MapControllers();
 
 app.Run();
-
-record WeatherForecast(DateOnly Date, int TemperatureC, string? Summary)
-{
-    public int TemperatureF => 32 + (int)(TemperatureC / 0.5556);
-}
