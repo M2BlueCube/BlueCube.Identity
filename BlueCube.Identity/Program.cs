@@ -1,29 +1,57 @@
+using System.Text;
+using BlueCube.Identity.Data;
 using BlueCube.Identity.Services;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using BlueCube.Identity.Services.Contract;
 using LiteChat.Extensions;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 
 var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
+var config = builder.Configuration;
 
 // Add services to the container.
 
-var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") 
-                       ?? throw new KeyNotFoundException(" DefaultConnection is not found in Configuration");
+var connectionString = config.GetConnectionString("IdentityConnection") 
+                       ?? throw new KeyNotFoundException(" IdentityConnection is not found in Configuration");
 
-services.AddDbContext<IdentityDbContext>(options => options.UseNpgsql(connectionString, b => b.MigrationsAssembly("BlueCube.Identity")));
+var jwtKey = Encoding.UTF8.GetBytes(config["Jwt:Key"] 
+                                    ?? throw new KeyNotFoundException("Jwt secret key is null"));
 
-services.AddIdentity<IdentityUser,IdentityRole>()
-    .AddEntityFrameworkStores<IdentityDbContext>()
+services.AddDbContext<BlueCubeIdentityDbContext>(options =>
+    options.UseNpgsql(connectionString, b => 
+        b.MigrationsAssembly("BlueCube.Identity")));
+
+services.AddIdentity<User,IdentityRole>()
+    .AddEntityFrameworkStores<BlueCubeIdentityDbContext>()
     .AddDefaultTokenProviders();
 
-builder.Services.AddScoped<IIdentityService, IdentityService>();
-builder.Services.AddHostedService<MigrationService>();
+services.AddScoped<IIdentityService, IdentityService>();
+services.AddHostedService<MigrationService>();
+services.AddScoped<IRsaService, RsaService>();
 
 services.AddControllers();
 services.AddEndpointsApiExplorer();
+services.AddAuthentication(x =>
+    {
+        x.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+        x.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+    })
+    .AddJwtBearer(x =>
+    {
+        x.RequireHttpsMetadata = false;
+        x.SaveToken = true;
+        x.TokenValidationParameters = new TokenValidationParameters
+        {
+            ValidateIssuerSigningKey = true,
+            IssuerSigningKey = new SymmetricSecurityKey(jwtKey),
+            ValidateIssuer = false,
+            ValidateAudience = false
+        };
+    });
+
 services.AddSwaggerGen();
 
 builder.Host.AddOrleansHost();

@@ -5,9 +5,9 @@ namespace BlueCube.Identity.Dto.Requests;
 public class LoginRequest
 {
     [Required]
-    public string Username { get; init; } = string.Empty;
-
+    [MaxLength(512)]
+    public string PublicKey { get; init; } = string.Empty;
     [Required]
-    [DataType(DataType.Password)]
-    public string Password { get; init; } = string.Empty;
+    [MaxLength(512)]
+    public string Signature { get; init; } = string.Empty;
 }

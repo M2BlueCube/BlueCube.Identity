@@ -1,6 +1,9 @@
+using System.Security.Claims;
+using BlueCube.Identity.Dto;
 using BlueCube.Identity.Dto.Requests;
 using BlueCube.Identity.Dto.Responses;
-using BlueCube.Identity.Services.Contract;
+using BlueCube.Identity.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 
 namespace BlueCube.Identity.Controllers;
@@ -15,18 +18,30 @@ public class IdentityController : ControllerBase
     {
         _identityService = identityService;
     }
-
+    [HttpPost]
+    public async Task<ActionResult> Register(LoginRequest request)
+    {
+        await _identityService.RegisterAsync(request.PublicKey, request.Signature!);
+        return Ok();
+    }
+    
     [HttpPost]
     public async Task<ActionResult<LoginResponse>> Login(LoginRequest request)
     {
-        var token = await _identityService.AuthenticateAsync(request.Username, request.Password);
+        var token = await _identityService.AuthenticateAsync(request.PublicKey, request.Signature);
         return Ok(new LoginResponse(){  Token = token});
     }
-
-    [HttpPost]
-    public async Task<ActionResult> Signup(SignupRequest request)
+    
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult<UserDto>> MyUser()
     {
-        await _identityService.RegisterAsync(request.UserName, request.Password);
-        return Ok();
+        var userId = HttpContext.User.Claims.SingleOrDefault(x => x.Type == ClaimTypes.NameIdentifier)?.Value;
+        if (string.IsNullOrEmpty(userId))
+            throw new KeyNotFoundException(ClaimTypes.NameIdentifier + " is not in the Claims");
+        var user = await _identityService.GetUserAsync(userId) ?? throw new KeyNotFoundException("some thing went wrong");
+        var userDto = new UserDto(user.Id, user.UserName!, user.PublicKey);
+        return Ok(userDto);
     }
+
 }
