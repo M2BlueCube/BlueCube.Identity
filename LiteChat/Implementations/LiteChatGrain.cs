@@ -2,10 +2,10 @@ using LiteChat.Models;
 
 namespace LiteChat.Implementations;
 
-public sealed class LiteChatGrain: Grain, ILiteChat
+public sealed class LiteChatGrain : Grain, ILiteChat
 {
-    private List<ChatMessageEventDto> _message = new();
-        
+    private readonly List<ChatMessageEventDto> _message = new();
+
     public override Task OnActivateAsync(CancellationToken cancellationToken)
     {
         DelayDeactivation(TimeSpan.FromDays(1));
@@ -17,7 +17,8 @@ public sealed class LiteChatGrain: Grain, ILiteChat
         var chatId = this.GetPrimaryKey();
         var date = DateOnly.FromDateTime(DateTime.UtcNow);
         var maxId = _message.Where(m => m.Day == date).Max(x => x.Id);
-        var message = new ChatMessageEventDto(maxId + 1, command.From, command.To, chatId, command.Message, DateTime.UtcNow);
+        var message = new ChatMessageEventDto(maxId + 1, command.From, command.To, chatId, command.Message,
+            DateTime.UtcNow);
         _message.Add(message);
 
         return ValueTask.CompletedTask;
@@ -27,7 +28,7 @@ public sealed class LiteChatGrain: Grain, ILiteChat
     {
         var messages = _message.Where(m => m.Day == date && m.Id > latest)
             .Take(count).ToArray();
-        
+
         return ValueTask.FromResult(messages);
     }
 }

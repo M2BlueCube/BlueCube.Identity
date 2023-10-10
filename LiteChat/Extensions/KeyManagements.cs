@@ -28,5 +28,4 @@ public static class KeyManagements
 
         return XorGuidCalculation(first, second);
     }
-
 }
