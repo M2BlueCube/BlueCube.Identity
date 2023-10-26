@@ -4,7 +4,9 @@ using LiteChat.Extensions;
 
 namespace LiteChat.Models;
 
-public record ChatMessageDto(string To, int Latest, int Count, [Required, RegularExpression(KeyManagements.DateOnlyRegex)] string Date);
+public record ChatMessageDto(string To, int Latest, int Count, 
+    //[Required, RegularExpression(KeyManagements.DateOnlyRegex)]
+    string Date);
 
 public record GetChatQuery
 {
@@ -15,7 +17,7 @@ public record GetChatQuery
 
     public int Count { get; init; } = 10;
 
-    [Required, MaxLength(12), RegularExpression(KeyManagements.DateOnlyRegex)]
+    [Required, MaxLength(12)]//, RegularExpression(KeyManagements.DateOnlyRegex)]
     public string Date { get; init; } = string.Empty;
 }
 
