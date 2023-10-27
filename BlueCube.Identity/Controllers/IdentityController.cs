@@ -19,9 +19,9 @@ public class IdentityController : ControllerBase
         _identityService = identityService;
     }
     [HttpPost]
-    public async Task<ActionResult> Register(LoginRequest request)
+    public async Task<ActionResult> Register(RegisterRequest request)
     {
-        await _identityService.RegisterAsync(request.PublicKey, request.Signature!);
+        await _identityService.RegisterAsync(request.PublicKey, request.UserName, request.Signature!);
         return Ok();
     }
     
@@ -42,6 +42,15 @@ public class IdentityController : ControllerBase
         var user = await _identityService.GetUserAsync(userId) ?? throw new KeyNotFoundException("some thing went wrong");
         var userDto = new UserDto(user.Id, user.UserName!, user.PublicKey);
         return Ok(userDto);
+    }
+
+    [HttpGet]
+    [Authorize]
+    public async Task<ActionResult<UserDto>> GetAllUsers()
+    {
+        var users = await _identityService.GetAllUsersAsync();
+        var userDtos = users.Select(user => new UserDto(user.Id, user.UserName!, user.PublicKey)).ToList();
+        return Ok(userDtos);
     }
 
 }

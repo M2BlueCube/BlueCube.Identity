@@ -22,10 +22,10 @@ public class IdentityService : IIdentityService
         _jwtSecretKey = config["Jwt:Key"] ?? throw new Exception("Jwt secret key is null");
     }
 
-    public async Task RegisterAsync(string publicKey , string signature)
+    public async Task RegisterAsync(string publicKey ,string userName, string signature)
     {
         Verify(publicKey, signature);
-        var user = new User{ UserName = Guid.NewGuid().ToString() , PublicKey = publicKey};
+        var user = new User{ UserName = userName , PublicKey = publicKey};
         var result = await _userManager.CreateAsync(user);
         if (!result.Succeeded)
             throw new Exception(string.Join(',', result.Errors.Select(e => $"{e.Code} : {e.Description}")));
@@ -43,7 +43,8 @@ public class IdentityService : IIdentityService
         return encryptedToken;
     }
     public Task<User?> GetUserAsync(string userId) => _userManager.FindByIdAsync(userId);
-    
+    public async  Task<IEnumerable<User>> GetAllUsersAsync() => await _userManager.Users.ToListAsync();
+
     private void Verify(string publicKey, string signature)
     {
         if (publicKey != _rsaService.GetNormalizedPublicKey(publicKey))
