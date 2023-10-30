@@ -7,9 +7,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueCube.Identity", "BlueCu
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2EC71506-E31F-4334-A878-E9CA07ED4AA3}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "BlueCube.Models", "BlueCube.Models\BlueCube.Models.csproj", "{10F3DE22-EAED-4841-9B70-FE7A1D4C6BBB}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueCube.Models", "BlueCube.Models\BlueCube.Models.csproj", "{10F3DE22-EAED-4841-9B70-FE7A1D4C6BBB}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteChat", "LiteChat\LiteChat.csproj", "{C8E60AF3-40C1-487E-9E9A-4AF6EF938861}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteChat", "LiteChat\LiteChat.csproj", "{C8E60AF3-40C1-487E-9E9A-4AF6EF938861}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteChat.Chess", "LiteChat.Chess\LiteChat.Chess.csproj", "{CB011934-1322-4820-961B-9F3290B117C1}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteChat.Games", "LiteChat.Games\LiteChat.Games.csproj", "{CACE6976-C998-41DA-AFDB-186D74B08314}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +37,14 @@ Global
 		{C8E60AF3-40C1-487E-9E9A-4AF6EF938861}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8E60AF3-40C1-487E-9E9A-4AF6EF938861}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{C8E60AF3-40C1-487E-9E9A-4AF6EF938861}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CB011934-1322-4820-961B-9F3290B117C1}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CB011934-1322-4820-961B-9F3290B117C1}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CB011934-1322-4820-961B-9F3290B117C1}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CB011934-1322-4820-961B-9F3290B117C1}.Release|Any CPU.Build.0 = Release|Any CPU
+		{CACE6976-C998-41DA-AFDB-186D74B08314}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{CACE6976-C998-41DA-AFDB-186D74B08314}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{CACE6976-C998-41DA-AFDB-186D74B08314}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{CACE6976-C998-41DA-AFDB-186D74B08314}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
