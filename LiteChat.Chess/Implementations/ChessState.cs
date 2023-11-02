@@ -23,7 +23,7 @@ public class ChessState : GameState, IChessState
             case BlackPlayerJoinedEvent blackPlayerJoinedEvent:
                 _blackPlayer = new ChessPlayer { UserId = blackPlayerJoinedEvent.UserId };
                 break;
-            {}
+            
             case ChessMoveEvent chessMoveEvent:
                 break;
             
@@ -42,9 +42,21 @@ public class ChessState : GameState, IChessState
 
     private static Dictionary<ChessSquares, ChessPiece> DefaultPieces()
     {
-        Dictionary<ChessSquares, ChessPiece> output = new();
-        // output.Add(ChessSquares);
+        List<KeyValuePair<ChessSquares, ChessPiece>> output = new();
+
+        var whitePawns = ChessSquares.AllBSquares.Select(square =>
+            new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Pawn, ChessPieceColor.White)));
         
-        return output;
+        
+        
+        return output.ToDictionary();
+    }
+
+    private static IEnumerable<KeyValuePair<ChessSquares, ChessPiece>> GetDefaultWhitePieces()
+    {
+        ChessSquares.AllASquares.Concat(ChessSquares.AllBSquares).Select(square => square switch
+        {
+            
+        })
     }
 }
