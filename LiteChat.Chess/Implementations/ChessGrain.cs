@@ -3,38 +3,13 @@ using LiteChat.Games;
 using LiteChat.Games.Commands;
 using LiteChat.Games.Events;
 using LiteChat.Games.States;
-using Orleans.EventSourcing;
+using Orleans;
 
 namespace LiteChat.Chess.Implementations;
 
-internal class ChessGrain : JournaledGrain<ChessState, BaseEvent>, IChess
+internal class ChessGrain : Grain, IChess
 {
-    public override Task OnActivateAsync(CancellationToken cancellationToken)
-    {
-        return base.OnActivateAsync(cancellationToken);
-    }
-
-    protected override void RaiseEvent<TEvent>(TEvent @event)
-    {
-        base.RaiseEvent(@event);
-    }
-
-    protected override void RaiseEvents<TEvent>(IEnumerable<TEvent> events)
-    {
-        base.RaiseEvents(events);
-    }
-
-    protected override Task<bool> RaiseConditionalEvent<TEvent>(TEvent @event)
-    {
-        return base.RaiseConditionalEvent(@event);
-    }
-
-    protected override Task<bool> RaiseConditionalEvents<TEvent>(IEnumerable<TEvent> events)
-    {
-        return base.RaiseConditionalEvents(events);
-    }
-
-
+    
     public ValueTask<ChessState> GetState()
     {
         throw new NotImplementedException();

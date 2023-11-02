@@ -10,9 +10,9 @@ public interface IGameState
 
 public abstract class GameState : IGameState
 {
-    protected readonly List<BaseEvent> events = [];
+    protected readonly List<BaseEvent> _events = new();
 
-    public int Version => events.Count > 0 ? events.Last().Id : 0;
-    public void ApplyEvent(BaseEvent @event) => events.Add(@event);
+    public int Version => _events.Count > 0 ? _events.Last().Id : 0;
+    public virtual void ApplyEvent(BaseEvent @event) => _events.Add(@event);
 }
 

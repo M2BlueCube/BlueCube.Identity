@@ -5,5 +5,4 @@ namespace LiteChat.Chess;
 
 public interface IChess : IGames<IChessState>
 {
-
 }
