@@ -11,12 +11,8 @@ var builder = WebApplication.CreateBuilder(args);
 var services = builder.Services;
 var config = builder.Configuration;
 
-// Add services to the container.
-var eventStore = config.GetConnectionString("EventStore");
-Console.WriteLine(eventStore);
-
 var connectionString = config.GetConnectionString("IdentityConnection") 
-                       ?? throw new KeyNotFoundException(" IdentityConnection is not found in Configuration");
+    ?? throw new KeyNotFoundException(" IdentityConnection is not found in Configuration");
 
 var jwtKey = Encoding.UTF8.GetBytes(config["Jwt:Key"] 
     ?? throw new KeyNotFoundException("Jwt secret key is null"));
