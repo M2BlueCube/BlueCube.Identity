@@ -30,6 +30,7 @@ public class ChessState : GameState, IChessState
                 break;
 
             case ChessMoveEvent chessMoveEvent:
+                MovePiece(chessMoveEvent);
                 break;
 
             default:
@@ -45,22 +46,27 @@ public class ChessState : GameState, IChessState
         return _events.Count % 2 == 0 ? _whitePlayer : _blackPlayer;
     }
 
-    public ChessPiecePosition[] GetPiecePositions() => 
+    public ChessPiecePosition[] GetPiecePositions() =>
         _pieces.Select(pair => new ChessPiecePosition(pair.Key, pair.Value.Type, pair.Value.Color)).ToArray();
 
-    public ChessPiecePosition? GetPiecePosition(ChessSquares square) => 
+    public ChessPiecePosition? GetPiecePosition(ChessSquares square) =>
         _pieces.TryGetValue(square, out ChessPiece? value) ? new ChessPiecePosition(square, value.Type, value.Color) : null;
+
+    private void MovePiece(ChessMoveEvent @event)
+    {
+        if (_pieces.TryGetValue(@event.From, out ChessPiece? piece) && piece.Type == @event.Piece.Type && piece.Color == @event.Piece.Color)
+        {
+            _pieces.Remove(@event.From);
+            _pieces.Add(@event.To, piece);
+            return;
+        }
+
+        throw new ArgumentException();
+    }
 
     private static Dictionary<ChessSquares, ChessPiece> DefaultPieces()
     {
-        var whitePawns = GetDefaultWhitePieces();
-        var blackPawns = GetDefaultBlackPieces();
-
-        List<KeyValuePair<ChessSquares, ChessPiece>> output = new();
-
-        output.AddRange(whitePawns);
-        output.AddRange(blackPawns);
-
+        List<KeyValuePair<ChessSquares, ChessPiece>> output = [.. GetDefaultWhitePieces(), .. GetDefaultBlackPieces()];
         return output.ToDictionary();
     }
 
