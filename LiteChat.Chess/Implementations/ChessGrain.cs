@@ -9,7 +9,14 @@ namespace LiteChat.Chess.Implementations;
 
 internal class ChessGrain : Grain, IChess
 {
-    
+    private IChessState _state;
+
+    public override Task OnActivateAsync(CancellationToken cancellationToken)
+    {
+        var state = new ChessState();
+        return base.OnActivateAsync(cancellationToken);
+    }
+
     public ValueTask<ChessState> GetState()
     {
         throw new NotImplementedException();
