@@ -50,7 +50,7 @@ public class ChessState : GameState, IChessState
             piece.Color != @event.Piece.Color) throw new ArgumentException();
 
         _pieces.Remove(@event.From);
-        _pieces[@event.To] = new ChessPiece(@event.PromoteTo, piece.Color);
+        _pieces[@event.To] = piece with { Type = @event.PromoteTo };
     }
 
     public IPlayer? PlayerTurn()
@@ -83,13 +83,13 @@ public class ChessState : GameState, IChessState
     private static IEnumerable<KeyValuePair<ChessSquares, ChessPiece>> GetDefaultWhitePieces() =>
         ChessSquares.All1Squares.Concat(ChessSquares.All2Squares).Select(square => square switch
         {
-            (1, 'A') or (1, 'H') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Rook, ChessPieceColor.White)),
-            (1, 'B') or (1, 'G') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Knight, ChessPieceColor.White)),
-            (1, 'C') or (1, 'F') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Bishop, ChessPieceColor.White)),
-            (1, 'D') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Queen, ChessPieceColor.White)),
-            (1, 'E') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.King, ChessPieceColor.White)),
+            (1, 1) or (1, 8) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Rook, ChessPieceColor.White)),
+            (1, 2) or (1, 7) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Knight, ChessPieceColor.White)),
+            (1, 3) or (1, 6) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Bishop, ChessPieceColor.White)),
+            (1, 4) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Queen, ChessPieceColor.White)),
+            (1, 5) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.King, ChessPieceColor.White)),
 
-            (2, 'A') or (2, 'B') or (2, 'C') or (2, 'D') or (2, 'E') or (2, 'F') or (2, 'G') or (2, 'H')
+            (2, 1) or (2, 2) or (2, 3) or (2, 4) or (2, 5) or (2, 6) or (2, 7) or (2, 8)
                 => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Pawn, ChessPieceColor.White)),
 
             _ => throw new NotImplementedException(),
@@ -98,13 +98,13 @@ public class ChessState : GameState, IChessState
     private static IEnumerable<KeyValuePair<ChessSquares, ChessPiece>> GetDefaultBlackPieces() =>
         ChessSquares.All7Squares.Concat(ChessSquares.All8Squares).Select(square => square switch
         {
-            (8, 'A') or (8, 'H') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Rook, ChessPieceColor.Black)),
-            (8, 'B') or (8, 'G') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Knight, ChessPieceColor.Black)),
-            (8, 'C') or (8, 'F') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Bishop, ChessPieceColor.Black)),
-            (8, 'D') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Queen, ChessPieceColor.Black)),
-            (8, 'E') => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.King, ChessPieceColor.Black)),
+            (8, 1) or (8, 8) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Rook, ChessPieceColor.Black)),
+            (8, 2) or (8, 7) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Knight, ChessPieceColor.Black)),
+            (8, 3) or (8, 6) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Bishop, ChessPieceColor.Black)),
+            (8, 4) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Queen, ChessPieceColor.Black)),
+            (8, 5) => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.King, ChessPieceColor.Black)),
 
-            (7, 'A') or (7, 'B') or (7, 'C') or (7, 'D') or (7, 'E') or (7, 'F') or (7, 'G') or (7, 'H')
+            (7, 1) or (7, 2) or (7, 3) or (7, 4) or (7, 5) or (7, 6) or (7, 7) or (7, 8)
                         => new KeyValuePair<ChessSquares, ChessPiece>(square, new ChessPiece(ChessPieceType.Pawn, ChessPieceColor.Black)),
 
             _ => throw new NotImplementedException(),
