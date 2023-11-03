@@ -54,14 +54,11 @@ public class ChessState : GameState, IChessState
 
     private void MovePiece(ChessMoveEvent @event)
     {
-        if (_pieces.TryGetValue(@event.From, out ChessPiece? piece) && piece.Type == @event.Piece.Type && piece.Color == @event.Piece.Color)
-        {
-            _pieces.Remove(@event.From);
-            _pieces.Add(@event.To, piece);
-            return;
-        }
-
-        throw new ArgumentException();
+        if (!_pieces.TryGetValue(@event.From, out ChessPiece? piece) || piece.Type != @event.Piece.Type ||
+            piece.Color != @event.Piece.Color) throw new ArgumentException();
+        
+        _pieces.Remove(@event.From);
+        _pieces.Add(@event.To, piece);
     }
 
     private static Dictionary<ChessSquares, ChessPiece> DefaultPieces()
