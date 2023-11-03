@@ -121,5 +121,24 @@ namespace Game.Chess.Tests
             Assert.NotNull(state.BlackPlayer);
             Assert.Equal(@event.UserId, state.BlackPlayer.UserId);
         }
+
+        [Fact]
+        public void MovePieceEventTest()
+        {
+            ChessState state = new();
+            var to = ChessSquares.A4;
+            var from = ChessSquares.A2;
+
+            ChessPiece piece = new(ChessPieceType.Pawn, ChessPieceColor.White);
+            ChessMoveEvent @event = new()
+                { From = from, To = to, Piece = piece, Id = 1, TimeStamp = DateTimeOffset.Now };
+
+            Assert.Null(state.GetPiecePosition(to));
+            Assert.NotNull(state.GetPiecePosition(from));
+
+            state.Apply(@event);
+            Assert.Null(state.GetPiecePosition(from));
+            Assert.NotNull(state.GetPiecePosition(to));
+        }
     }
 }
