@@ -58,7 +58,7 @@ public class ChessState : GameState, IChessState
             piece.Color != @event.Piece.Color) throw new ArgumentException();
         
         _pieces.Remove(@event.From);
-        _pieces.Add(@event.To, piece);
+        _pieces[@event.To] = piece;
     }
 
     private static Dictionary<ChessSquares, ChessPiece> DefaultPieces()
