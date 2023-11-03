@@ -1,3 +1,4 @@
+using LiteChat.Chess.Events;
 using LiteChat.Chess.Implementations;
 using LiteChat.Chess.Models;
 
@@ -95,5 +96,30 @@ namespace Game.Chess.Tests
             Assert.Equal(color, piece.Color);
         }
 
+        [Fact]
+        public void WhitePlayerJoinedEventTest()
+        {
+            ChessState state = new();
+            WhitePlayerJoinedEvent @event = new() { UserId = Guid.NewGuid() };
+
+            Assert.Null(state.WhitePlayer);
+            state.Apply(@event);
+
+            Assert.NotNull(state.WhitePlayer);
+            Assert.Equal(@event.UserId, state.WhitePlayer.UserId);
+        }
+
+        [Fact]
+        public void BlackPlayerJoinedEventTest()
+        {
+            ChessState state = new();
+            BlackPlayerJoinedEvent @event = new() { UserId = Guid.NewGuid() };
+
+            Assert.Null(state.BlackPlayer);
+            state.Apply(@event);
+
+            Assert.NotNull(state.BlackPlayer);
+            Assert.Equal(@event.UserId, state.BlackPlayer.UserId);
+        }
     }
 }

@@ -7,8 +7,8 @@ namespace LiteChat.Chess.Implementations;
 
 public class ChessState : GameState, IChessState
 {
-    public IChessPlayer? _whitePlayer { get; private set; }
-    public IChessPlayer? _blackPlayer { get; private set; }
+    public IChessPlayer? WhitePlayer { get; private set; }
+    public IChessPlayer? BlackPlayer { get; private set; }
 
     private readonly Dictionary<ChessSquares, ChessPiece> _pieces;
 
@@ -17,16 +17,16 @@ public class ChessState : GameState, IChessState
         _pieces = DefaultPieces();
     }
 
-    public override void ApplyEvent(BaseEvent @event)
+    public override void Apply(BaseEvent @event)
     {
         switch (@event)
         {
             case WhitePlayerJoinedEvent whitePlayerJoinedEvent:
-                _whitePlayer = new ChessPlayer { UserId = whitePlayerJoinedEvent.UserId };
+                WhitePlayer = new ChessPlayer { UserId = whitePlayerJoinedEvent.UserId };
                 break;
 
             case BlackPlayerJoinedEvent blackPlayerJoinedEvent:
-                _blackPlayer = new ChessPlayer { UserId = blackPlayerJoinedEvent.UserId };
+                BlackPlayer = new ChessPlayer { UserId = blackPlayerJoinedEvent.UserId };
                 break;
 
             case ChessPromotePawnEvent chessPromotePawnEvent:
@@ -41,7 +41,7 @@ public class ChessState : GameState, IChessState
                 throw new ArgumentException();
         }
 
-        base.ApplyEvent(@event);
+        base.Apply(@event);
     }
 
     private void ChessPromotePawn(ChessPromotePawnEvent @event)
@@ -55,8 +55,8 @@ public class ChessState : GameState, IChessState
 
     public IPlayer? PlayerTurn()
     {
-        if (_whitePlayer is null || _blackPlayer is null) return null;
-        return _events.Count % 2 == 0 ? _whitePlayer : _blackPlayer;
+        if (WhitePlayer is null || BlackPlayer is null) return null;
+        return _events.Count % 2 == 0 ? WhitePlayer : BlackPlayer;
     }
 
     public ChessPiecePosition[] GetPiecePositions() =>
