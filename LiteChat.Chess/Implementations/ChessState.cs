@@ -29,6 +29,10 @@ public class ChessState : GameState, IChessState
                 _blackPlayer = new ChessPlayer { UserId = blackPlayerJoinedEvent.UserId };
                 break;
 
+            case ChessPromotePawnEvent chessPromotePawnEvent:
+                ChessPromotePawn(chessPromotePawnEvent);
+                break;
+
             case ChessMoveEvent chessMoveEvent:
                 MovePiece(chessMoveEvent);
                 break;
@@ -38,6 +42,15 @@ public class ChessState : GameState, IChessState
         }
 
         base.ApplyEvent(@event);
+    }
+
+    private void ChessPromotePawn(ChessPromotePawnEvent @event)
+    {
+        if (!_pieces.TryGetValue(@event.From, out ChessPiece? piece) || piece.Type != @event.Piece.Type ||
+            piece.Color != @event.Piece.Color) throw new ArgumentException();
+
+        _pieces.Remove(@event.From);
+        _pieces[@event.To] = new ChessPiece(@event.PromoteTo, piece.Color);
     }
 
     public IPlayer? PlayerTurn()
