@@ -7,7 +7,7 @@ namespace LiteChat.Client
     public partial class MainPage : ContentPage
     {
         int count = 0;
-        IChessState chessState;
+        ChessState chessState;
 
         public MainPage()
         {

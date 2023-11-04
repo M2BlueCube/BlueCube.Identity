@@ -16,8 +16,4 @@
     <ProjectReference Include="..\LiteChat.Games\LiteChat.Games.csproj" />
   </ItemGroup>
 
-  <ItemGroup>
-    <Folder Include="Models\" />
-  </ItemGroup>
-
 </Project>

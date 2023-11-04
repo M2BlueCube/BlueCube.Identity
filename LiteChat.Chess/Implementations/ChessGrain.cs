@@ -2,7 +2,7 @@
 using LiteChat.Abstraction.Chess.Implementations;
 using LiteChat.Abstraction.Game.Commands;
 using LiteChat.Abstraction.Game.Events;
-using LiteChat.Abstraction.Game.States;
+using LiteChat.Abstraction.Game.Models;
 using LiteChat.Games;
 using Orleans;
 
@@ -10,20 +10,20 @@ namespace LiteChat.Chess.Implementations;
 
 internal class ChessGrain : Grain, IChess
 {
-    private IChessState _state = new ChessState();
+    private ChessState _state = new();
 
     public override Task OnActivateAsync(CancellationToken cancellationToken)
     {
         return base.OnActivateAsync(cancellationToken);
     }
 
-    public ValueTask<IChessState> GetState() => ValueTask.FromResult(_state);
+    public ValueTask<ChessState> GetState() => ValueTask.FromResult(_state);
     public ValueTask<int> GetVersion() => ValueTask.FromResult(_state.Version);
 
     
-    public ValueTask<IPlayer?[]> GetParticipants()
+    public ValueTask<Player?[]> GetParticipants()
     {
-        IPlayer?[] players = new[] { _state.WhitePlayer, _state.BlackPlayer };
+        Player?[] players = new[] { _state.WhitePlayer, _state.BlackPlayer };
         return ValueTask.FromResult(players);
     }
 
