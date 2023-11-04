@@ -1,4 +1,4 @@
-﻿using LiteChat.Abstraction.Chess.Implementations;
+﻿using LiteChat.Common.Chess.Implementations;
 
 
 namespace LiteChat.Client

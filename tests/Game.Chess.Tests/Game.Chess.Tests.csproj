@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -23,7 +23,8 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LiteChat.Abstraction.Chess\LiteChat.Abstraction.Chess.csproj" />
+    <ProjectReference Include="..\..\common\LiteChat.Common.Chess\LiteChat.Common.Chess.csproj" />
+    <ProjectReference Include="..\..\common\LiteChat.Common.Game\LiteChat.Common.Game.csproj" />
   </ItemGroup>
 
 </Project>
