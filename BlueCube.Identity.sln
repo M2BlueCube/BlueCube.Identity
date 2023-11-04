@@ -21,9 +21,9 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Game.Chess.Tests", "tests\G
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteChat.Client", "LiteChat.Client\LiteChat.Client.csproj", "{D4CED36F-9E27-42F3-91A9-9A5CD4F46228}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteChat.Abstraction.Chess", "..\LiteChat.Abstraction.Chess\LiteChat.Abstraction.Chess.csproj", "{C805F65A-A3A7-4756-9004-1291E75139C9}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteChat.Abstraction.Chess", "LiteChat.Abstraction.Chess\LiteChat.Abstraction.Chess.csproj", "{C805F65A-A3A7-4756-9004-1291E75139C9}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteChat.Abstraction.Game", "..\LiteChat.Abstraction.Game\LiteChat.Abstraction.Game.csproj", "{A0D4B763-6815-4383-819C-57052BA95E34}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteChat.Abstraction.Game", "LiteChat.Abstraction.Game\LiteChat.Abstraction.Game.csproj", "{A0D4B763-6815-4383-819C-57052BA95E34}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
