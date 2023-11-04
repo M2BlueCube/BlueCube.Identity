@@ -1,5 +1,4 @@
-﻿using LiteChat.Abstraction.Chess;
-using LiteChat.Abstraction.Chess.Implementations;
+﻿using LiteChat.Abstraction.Chess.Implementations;
 
 
 namespace LiteChat.Client
@@ -28,5 +27,4 @@ namespace LiteChat.Client
             SemanticScreenReader.Announce(CounterBtn.Text);
         }
     }
-
 }

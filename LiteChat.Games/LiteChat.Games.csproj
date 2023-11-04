@@ -12,7 +12,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\LiteChat.Abstraction.Game\LiteChat.Abstraction.Game.csproj" />
+    <ProjectReference Include="..\LiteChat.Abstraction.Game\LiteChat.Abstraction.Game.csproj" />
   </ItemGroup>
 
 </Project>
