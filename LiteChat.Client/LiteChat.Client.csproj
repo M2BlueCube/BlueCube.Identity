@@ -63,8 +63,8 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\LiteChat.Chess\LiteChat.Chess.csproj" />
-	  <ProjectReference Include="..\LiteChat.Games\LiteChat.Games.csproj" />
+	  <ProjectReference Include="..\..\LiteChat.Abstraction.Chess\LiteChat.Abstraction.Chess.csproj" />
+	  <ProjectReference Include="..\..\LiteChat.Abstraction.Game\LiteChat.Abstraction.Game.csproj" />
 	</ItemGroup>
 
 </Project>

@@ -1,45 +1,30 @@
-﻿using LiteChat.Chess.Models;
+﻿using LiteChat.Abstraction.Chess;
+using LiteChat.Abstraction.Chess.Implementations;
+using LiteChat.Abstraction.Game.Commands;
+using LiteChat.Abstraction.Game.Events;
+using LiteChat.Abstraction.Game.States;
 using LiteChat.Games;
-using LiteChat.Games.Commands;
-using LiteChat.Games.Events;
-using LiteChat.Games.States;
 using Orleans;
 
 namespace LiteChat.Chess.Implementations;
 
 internal class ChessGrain : Grain, IChess
 {
-    private IChessState _state;
+    private IChessState _state = new ChessState();
 
     public override Task OnActivateAsync(CancellationToken cancellationToken)
     {
-        var state = new ChessState();
         return base.OnActivateAsync(cancellationToken);
     }
 
-    public ValueTask<ChessState> GetState()
-    {
-        throw new NotImplementedException();
-    }
+    public ValueTask<IChessState> GetState() => ValueTask.FromResult(_state);
+    public ValueTask<int> GetVersion() => ValueTask.FromResult(_state.Version);
 
-    public Task HandelCommand(BaseCommand command)
+    
+    public ValueTask<IPlayer?[]> GetParticipants()
     {
-        throw new NotImplementedException();
-    }
-
-    public ValueTask<int> GetVersion()
-    {
-        throw new NotImplementedException();
-    }
-
-    ValueTask<IChessState> IGames<IChessState>.GetState()
-    {
-        throw new NotImplementedException();
-    }
-
-    public ValueTask<IPlayer[]> GetParticipants()
-    {
-        throw new NotImplementedException();
+        IPlayer?[] players = new[] { _state.WhitePlayer, _state.BlackPlayer };
+        return ValueTask.FromResult(players);
     }
 
     public ValueTask<BaseEvent[]> GetLatestEvents(int count = 50)
@@ -57,3 +42,4 @@ internal class ChessGrain : Grain, IChess
         throw new NotImplementedException();
     }
 }
+ 

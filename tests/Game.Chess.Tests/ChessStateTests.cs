@@ -1,6 +1,6 @@
-using LiteChat.Chess.Events;
-using LiteChat.Chess.Implementations;
-using LiteChat.Chess.Models;
+using LiteChat.Abstraction.Chess.Events;
+using LiteChat.Abstraction.Chess.Implementations;
+using LiteChat.Abstraction.Chess.Models;
 
 namespace Game.Chess.Tests
 {

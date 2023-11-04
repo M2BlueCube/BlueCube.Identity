@@ -1,5 +1,6 @@
-﻿using LiteChat.Chess.Implementations;
-using LiteChat.Chess.Models;
+﻿using LiteChat.Abstraction.Chess;
+using LiteChat.Abstraction.Chess.Implementations;
+
 
 namespace LiteChat.Client
 {
