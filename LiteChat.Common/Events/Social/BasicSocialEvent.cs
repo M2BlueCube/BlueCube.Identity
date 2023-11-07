@@ -10,6 +10,7 @@ public abstract record BasicSocialEvent : BasicEvent
 public record FriendRequestedEvent : BasicSocialEvent
 {
     public Guid FriendId { get; init; }
+    public override string EventName => nameof(FriendRequestedEvent);
 }
 
 

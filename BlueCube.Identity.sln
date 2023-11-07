@@ -7,8 +7,6 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueCube.Identity", "BlueCu
 EndProject
 Project("{E53339B2-1760-4266-BCC7-CA923CBCF16C}") = "docker-compose", "docker-compose.dcproj", "{2EC71506-E31F-4334-A878-E9CA07ED4AA3}"
 EndProject
-Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "BlueCube.Models", "BlueCube.Models\BlueCube.Models.csproj", "{10F3DE22-EAED-4841-9B70-FE7A1D4C6BBB}"
-EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteChat", "LiteChat\LiteChat.csproj", "{C8E60AF3-40C1-487E-9E9A-4AF6EF938861}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "tests", "tests", "{6E550140-0296-4B25-8580-6A802B25BF33}"
@@ -23,7 +21,7 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteChat.Games", "games\Lit
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteChat.Chess", "games\LiteChat.Chess\LiteChat.Chess.csproj", "{01F03716-F444-4185-A531-27CF92B66787}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LiteChat.Common", "LiteChat.Common\LiteChat.Common.csproj", "{CFB20947-5802-4783-A785-CC6A312775F9}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "LiteChat.Common", "LiteChat.Common\LiteChat.Common.csproj", "{CFB20947-5802-4783-A785-CC6A312775F9}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,10 +37,6 @@ Global
 		{2EC71506-E31F-4334-A878-E9CA07ED4AA3}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{2EC71506-E31F-4334-A878-E9CA07ED4AA3}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{2EC71506-E31F-4334-A878-E9CA07ED4AA3}.Release|Any CPU.Build.0 = Release|Any CPU
-		{10F3DE22-EAED-4841-9B70-FE7A1D4C6BBB}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{10F3DE22-EAED-4841-9B70-FE7A1D4C6BBB}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{10F3DE22-EAED-4841-9B70-FE7A1D4C6BBB}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{10F3DE22-EAED-4841-9B70-FE7A1D4C6BBB}.Release|Any CPU.Build.0 = Release|Any CPU
 		{C8E60AF3-40C1-487E-9E9A-4AF6EF938861}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{C8E60AF3-40C1-487E-9E9A-4AF6EF938861}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{C8E60AF3-40C1-487E-9E9A-4AF6EF938861}.Release|Any CPU.ActiveCfg = Release|Any CPU
