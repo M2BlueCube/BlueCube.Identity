@@ -1,7 +1,7 @@
-﻿using LiteChat.Common.Chess.Implementations;
-using LiteChat.Common.Commands;
-using LiteChat.Common.Events;
-using LiteChat.Common.Game.Models;
+﻿using LiteChat.Common.Commands.Game;
+using LiteChat.Common.Events.Game;
+using LiteChat.Common.Models.Games;
+using LiteChat.Common.Models.Games.Chess;
 using Orleans;
 
 namespace LiteChat.Chess.Implementations;
@@ -25,17 +25,17 @@ internal class ChessGrain : Grain, IChess
         return ValueTask.FromResult(players);
     }
 
-    public ValueTask<BaseEvent[]> GetLatestEvents(int count = 50)
+    public ValueTask<BasicGameEvent[]> GetLatestEvents(int count = 50)
     {
         throw new NotImplementedException();
     }
 
-    public ValueTask<BaseEvent[]> GetNextEvents(int id = 0, int count = 50)
+    public ValueTask<BasicGameEvent[]> GetNextEvents(int id = 0, int count = 50)
     {
         throw new NotImplementedException();
     }
 
-    public Task HandleCommand(BaseCommand command)
+    public Task HandleCommand(BasicGameCommand command)
     {
         throw new NotImplementedException();
     }

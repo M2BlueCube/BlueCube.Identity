@@ -1,6 +1,6 @@
+
 using LiteChat.Common.Chess.Events;
-using LiteChat.Common.Chess.Implementations;
-using LiteChat.Common.Chess.Models;
+using LiteChat.Common.Models.Games.Chess;
 
 namespace Game.Chess.Tests;
 
@@ -129,9 +129,9 @@ public class ChessStateTests
         var to = ChessSquares.A4;
         var from = ChessSquares.A2;
 
-        ChessPiece piece = new(ChessPieceType.Pawn, ChessPieceColor.White);
+        
         ChessMoveEvent @event = new()
-            { From = from, To = to, Piece = piece, Id = 1, TimeStamp = DateTimeOffset.Now };
+            { From = from, To = to, Id = 1, TimeStamp = DateTimeOffset.Now };
 
         Assert.Null(state.GetPiecePosition(to));
         Assert.NotNull(state.GetPiecePosition(from));

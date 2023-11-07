@@ -1,6 +1,6 @@
-﻿using LiteChat.Common.Commands;
-using LiteChat.Common.Events;
-using LiteChat.Common.Game.Models;
+﻿using LiteChat.Common.Commands.Game;
+using LiteChat.Common.Events.Game;
+using LiteChat.Common.Models.Games;
 using Orleans;
 
 namespace LiteChat.Games;
@@ -10,8 +10,8 @@ public interface IGames<TGameState> : IGrainWithGuidKey where TGameState : GameS
     ValueTask<int> GetVersion();
     ValueTask<TGameState> GetState();
     ValueTask<Player?[]> GetParticipants();
-    ValueTask<BaseEvent[]> GetLatestEvents(int count = 50);
-    ValueTask<BaseEvent[]> GetNextEvents(int id = 0, int count = 50);
-
-    Task HandleCommand(BaseCommand command);
+    ValueTask<BasicGameEvent[]> GetLatestEvents(int count = 50);
+    ValueTask<BasicGameEvent[]> GetNextEvents(int id = 0, int count = 50);
+    
+    Task HandleCommand(BasicGameCommand command);
 }
