@@ -1,6 +1,4 @@
-using LiteChat.Common.Events.Game;
-
-namespace LiteChat.Common.Chess.Events;
+namespace LiteChat.Common.Events.Game.Chess;
 
 public sealed record WhitePlayerJoinedEvent : JoinGameEvent
 {

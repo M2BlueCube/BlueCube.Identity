@@ -4,9 +4,9 @@ namespace LiteChat.Common.Models.Games;
 
 public abstract class GameState
 {
-    protected readonly List<BasicEvent> _events = new();
+    protected readonly List<BasicEvent> AllEvents = new();
 
-    public int Version => _events.Count > 0 ? _events.Last().Id : 0;
-    public virtual void Apply(BasicEvent @event) => _events.Add(@event);
+    public int Version => AllEvents.Count > 0 ? AllEvents.Last().Id : 0;
+    public virtual void Apply(BasicEvent @event) => AllEvents.Add(@event);
 }
 

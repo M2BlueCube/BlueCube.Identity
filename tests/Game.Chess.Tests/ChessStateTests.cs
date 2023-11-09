@@ -1,5 +1,4 @@
-
-using LiteChat.Common.Chess.Events;
+using LiteChat.Common.Events.Game.Chess;
 using LiteChat.Common.Models.Games.Chess;
 
 namespace Game.Chess.Tests;

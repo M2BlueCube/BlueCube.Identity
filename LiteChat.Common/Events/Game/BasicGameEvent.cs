@@ -1,7 +1,6 @@
-﻿using LiteChat.Common.Chess.Events;
-using LiteChat.Common.Models.Games;
-
+﻿using LiteChat.Common.Models.Games;
 using System.Text.Json.Serialization;
+using LiteChat.Common.Events.Game.Chess;
 
 namespace LiteChat.Common.Events.Game;
 

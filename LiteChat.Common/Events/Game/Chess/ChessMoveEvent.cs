@@ -1,8 +1,6 @@
-
-using LiteChat.Common.Events;
 using LiteChat.Common.Models.Games.Chess;
 
-namespace LiteChat.Common.Chess.Events;
+namespace LiteChat.Common.Events.Game.Chess;
 
 public record ChessMoveEvent : BasicEvent
 {

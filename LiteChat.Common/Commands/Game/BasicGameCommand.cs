@@ -1,3 +1,3 @@
 ﻿namespace LiteChat.Common.Commands.Game;
 
-public abstract record BasicGameCommand: BasicCommand;
+public abstract record BasicGameCommand : BasicCommand;
