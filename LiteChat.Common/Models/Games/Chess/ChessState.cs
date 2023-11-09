@@ -39,11 +39,10 @@ public class ChessState : GameState
 
     private void ChessPromotePawn(ChessPromotePawnEvent @event)
     {
-        if (_pieces.TryGetValue(@event.From, out var piece) || piece is ChessPawn pawn)
-        {
-            _pieces.Remove(@event.From);
-            _pieces[@event.To] = ChessPiece.PromotePiece(pawn, @event.PromoteTo);
-        }
+        if (!_pieces.TryGetValue(@event.From, out ChessPiece? piece) || piece is not ChessPawn pawn) return;
+
+        _pieces.Remove(@event.From);
+        _pieces[@event.To] = ChessPiece.PromotePiece(pawn, @event.PromoteTo);
     }
 
     public Player? PlayerTurn()

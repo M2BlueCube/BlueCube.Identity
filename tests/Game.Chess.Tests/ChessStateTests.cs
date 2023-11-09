@@ -46,8 +46,8 @@ public class ChessStateTests
         var piece = state.GetPiecePosition(square);
 
         Assert.NotNull(piece);
-        Assert.Equal(type, piece.Type);
-        Assert.Equal(color, piece.Color);
+        Assert.Equal(type, piece.Piece.Type);
+        Assert.Equal(color, piece.Piece.Color);
     }
 
     [Theory]
@@ -91,8 +91,8 @@ public class ChessStateTests
         var piece = pieces.FirstOrDefault(p => p.Square.X == x && p.Square.Y == y);
         
         Assert.NotNull(piece);
-        Assert.Equal(type, piece.Type);
-        Assert.Equal(color, piece.Color);
+        Assert.Equal(type, piece.Piece.Type);
+        Assert.Equal(color, piece.Piece.Color);
     }
 
     [Fact]
