@@ -78,8 +78,8 @@ public record ChessSquares(byte X, byte Y)
     public static ChessSquares H7 => new(7, 8);
     public static ChessSquares H8 => new(8, 8);
 
-    public static ChessSquares[] AllSquares = new[]
-    {
+    public static ChessSquares[] AllSquares =
+    [
         A1, A2, A3, A4, A5, A6, A7, A8,
         B1, B2, B3, B4, B5, B6, B7, B8,
         C1, C2, C3, C4, C5, C6, C7, C8,
@@ -88,85 +88,85 @@ public record ChessSquares(byte X, byte Y)
         F1, F2, F3, F4, F5, F6, F7, F8,
         G1, G2, G3, G4, G5, G6, G7, G8,
         H1, H2, H3, H4, H5, H6, H7, H8,
-    };
+    ];
 
-    public static ChessSquares[] AllASquares = new[]
-    {
+    public static ChessSquares[] AllASquares =
+    [
         A1, A2, A3, A4, A5, A6, A7, A8,
-    };
+    ];
 
-    public static ChessSquares[] AllBSquares = new[]
-    {
+    public static ChessSquares[] AllBSquares =
+    [
         B1, B2, B3, B4, B5, B6, B7, B8,
-    };
+    ];
 
-    public static ChessSquares[] AllCSquares = new[]
-    {
+    public static ChessSquares[] AllCSquares =
+    [
         C1, C2, C3, C4, C5, C6, C7, C8,
-    };
+    ];
 
-    public static ChessSquares[] AllDSquares = new[]
-    {
+    public static ChessSquares[] AllDSquares =
+    [
         D1, D2, D3, D4, D5, D6, D7, D8,
-    };
+    ];
 
-    public static ChessSquares[] AllESquares = new[]
-    {
+    public static ChessSquares[] AllESquares =
+    [
         E1, E2, E3, E4, E5, E6, E7, E8,
-    };
+    ];
 
-    public static ChessSquares[] AllFSquares = new[]
-    {
+    public static ChessSquares[] AllFSquares =
+    [
         F1, F2, F3, F4, F5, F6, F7, F8,
-    };
+    ];
 
-    public static ChessSquares[] AllGSquares = new[]
-    {
+    public static ChessSquares[] AllGSquares =
+    [
         G1, G2, G3, G4, G5, G6, G7, G8,
-    };
+    ];
 
-    public static ChessSquares[] AllHSquares = new[]
-    {
+    public static ChessSquares[] AllHSquares =
+    [
         H1, H2, H3, H4, H5, H6, H7, H8,
-    };
+    ];
 
-    public static ChessSquares[] All1Squares = new[]
-    {
+    public static ChessSquares[] All1Squares =
+    [
         A1, B1, C1, D1, E1, F1, G1, H1,
-    };
+    ];
 
-    public static ChessSquares[] All2Squares = new[]
-    {
+    public static ChessSquares[] All2Squares =
+    [
         A2, B2, C2, D2, E2, F2, G2, H2,
-    };
+    ];
 
-    public static ChessSquares[] All3Squares = new[]
-    {
+    public static ChessSquares[] All3Squares =
+    [
         A3, B3, C3, D3, E3, F3, G3, H3,
-    };
+    ];
 
-    public static ChessSquares[] All4Squares = new[]
-    {
+    public static ChessSquares[] All4Squares =
+    [
         A4, B4, C4, D4, E4, F4, G4, H4,
-    };
+    ];
 
-    public static ChessSquares[] All5Squares = new[]
-    {
+    public static ChessSquares[] All5Squares =
+    [
         A5, B5, C5, D5, E5, F5, G5, H5,
-    };
+    ];
 
-    public static ChessSquares[] All6Squares = new[]
-    {
+    public static ChessSquares[] All6Squares =
+    [
         A6, B6, C6, D6, E6, F6, G6, H6,
-    };
+    ];
 
-    public static ChessSquares[] All7Squares = new[]
-    {
+    public static ChessSquares[] All7Squares =
+    [
         A7, B7, C7, D7, E7, F7, G7, H7,
-    };
+    ];
 
-    public static ChessSquares[] All8Squares = new[]
-    {
+    public static ChessSquares[] All8Squares =
+    [
         A8, B8, C8, D8, E8, F8, G8, H8,
-    };
+    ];
 }

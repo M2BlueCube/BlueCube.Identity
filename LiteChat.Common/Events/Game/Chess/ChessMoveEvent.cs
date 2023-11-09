@@ -8,4 +8,6 @@ public record ChessMoveEvent : BasicEvent
 {
     public ChessSquares To { get; init; } = ChessSquares.None;
     public ChessSquares From { get; init; } = ChessSquares.None;
+
+    public override string EventName => nameof(ChessMoveEvent);
 }
