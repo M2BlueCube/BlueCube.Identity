@@ -4,7 +4,55 @@ public record ChessSquares(byte X, byte Y)
 {
     public bool IsValidChessSquare() => X is >= 1 and <= 8 && Y is >= 1 and <= 8;
 
+    public bool HorizontalDistance(ChessSquares square, out int value)
+    {
+        var xDistance = square.X - X;
+        var yDistance = square.Y - Y;
+
+        if (xDistance == 0)
+        {
+            value = yDistance;
+            return true;
+        }
+
+        value = 0;
+        return false;
+    }
+
+    public bool VerticalDistance(ChessSquares square, out int value)
+    {
+        var xDistance = square.X - X;
+        var yDistance = square.Y - Y;
+
+        if (yDistance == 0)
+        {
+            value = xDistance;
+            return true;
+        }
+
+        value = 0;
+        return false;
+    }
+
+    public bool DiagonalDistance(ChessSquares square, out int value) 
+    {
+        var xDistance = square.X - X;
+        var yDistance = square.Y - Y;
+
+        if (xDistance == yDistance)
+        {
+            value = yDistance;
+            return true;
+        }
+
+
+        value = 0;
+        return false;
+    }
+
     public static ChessSquares None = new(0, 0);
+
+    #region static Members
 
     public static ChessSquares A1 => new(1, 1);
     public static ChessSquares A2 => new(2, 1);
@@ -169,4 +217,6 @@ public record ChessSquares(byte X, byte Y)
     [
         A8, B8, C8, D8, E8, F8, G8, H8,
     ];
+
+    #endregion
 }

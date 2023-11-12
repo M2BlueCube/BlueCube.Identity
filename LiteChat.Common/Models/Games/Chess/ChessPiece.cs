@@ -1,11 +1,14 @@
 
+using LiteChat.Common.Commands.Game.Chess;
+using System.Diagnostics.CodeAnalysis;
+
 namespace LiteChat.Common.Models.Games.Chess;
 
 public abstract record ChessPiece
 {
     public abstract ChessPieceType Type { get; }
     public required ChessPieceColor Color { get; init; }
-    public abstract bool CanMove(ChessPiecePosition[] positions, ChessSquares from, ChessSquares to);
+    public abstract bool CanMove(ChessState state, MoveChessPieceCommand command, [MaybeNullWhen(false)] out ChessPiece piece);
 
     public static ChessPawn WhitePawn => new() { Color = ChessPieceColor.White };
     public static ChessPawn BlackPawn => new() { Color = ChessPieceColor.Black };
@@ -53,19 +56,30 @@ public abstract record ChessPiece
     protected bool CheckIfCheck(ChessPiecePosition[] positions, ChessSquares from, ChessSquares to)
     {
         var kingPosition = positions.First(piece => piece.Piece.Type == ChessPieceType.King && piece.Piece.Color == Color);
-        return positions.Where(piece => piece.Piece.Color != Color)
-            .Any(oppositePiece => oppositePiece.Piece.CanMove(positions, oppositePiece.Square, kingPosition.Square));
-    }
 
+        throw new NotImplementedException();
+        //return positions.Where(piece => piece.Piece.Color != Color)
+        //    .Any(oppositePiece => oppositePiece.Piece.CanMove(positions, oppositePiece.Square, kingPosition.Square, out _));
+    }
 }
 
 public record ChessPawn : ChessPiece
 {
     public override ChessPieceType Type => ChessPieceType.Pawn;
 
-    public override bool CanMove(ChessPiecePosition[] positions, ChessSquares from, ChessSquares to)
+    public override bool CanMove(ChessState state, MoveChessPieceCommand command, [MaybeNullWhen(false)] out ChessPiece piece)
     {
-        return false;
+        throw new NotImplementedException();
+    }
+}
+
+public record InitialChessPawn : ChessPiece
+{
+    public override ChessPieceType Type => ChessPieceType.Pawn;
+
+    public override bool CanMove(ChessState state, MoveChessPieceCommand command, [MaybeNullWhen(false)] out ChessPiece piece)
+    {
+        throw new NotImplementedException();
     }
 }
 
@@ -73,9 +87,10 @@ public record ChessRook : ChessPiece
 {
     public override ChessPieceType Type => ChessPieceType.Rook;
 
-    public override bool CanMove(ChessPiecePosition[] positions, ChessSquares from, ChessSquares to)
+    
+    public override bool CanMove(ChessState state, MoveChessPieceCommand command, [MaybeNullWhen(false)] out ChessPiece piece)
     {
-        return false;
+        throw new NotImplementedException();
     }
 }
 
@@ -83,9 +98,9 @@ public record ChessKnight : ChessPiece
 {
     public override ChessPieceType Type => ChessPieceType.Knight;
 
-    public override bool CanMove(ChessPiecePosition[] positions, ChessSquares from, ChessSquares to)
+    public override bool CanMove(ChessState state, MoveChessPieceCommand command, [MaybeNullWhen(false)] out ChessPiece piece)
     {
-        return false;
+        throw new NotImplementedException();
     }
 }
 
@@ -93,9 +108,9 @@ public record ChessBishop : ChessPiece
 {
     public override ChessPieceType Type => ChessPieceType.Bishop;
 
-    public override bool CanMove(ChessPiecePosition[] positions, ChessSquares from, ChessSquares to)
+    public override bool CanMove(ChessState state, MoveChessPieceCommand command, [MaybeNullWhen(false)] out ChessPiece piece)
     {
-        return false;
+        throw new NotImplementedException();
     }
 }
 
@@ -103,9 +118,9 @@ public record ChessQueen : ChessPiece
 {
     public override ChessPieceType Type => ChessPieceType.Queen;
 
-    public override bool CanMove(ChessPiecePosition[] positions, ChessSquares from, ChessSquares to)
+    public override bool CanMove(ChessState state, MoveChessPieceCommand command, [MaybeNullWhen(false)] out ChessPiece piece)
     {
-        return false;
+        throw new NotImplementedException();
     }
 }
 
@@ -113,9 +128,9 @@ public record ChessKing : ChessPiece
 {
     public override ChessPieceType Type => ChessPieceType.King;
 
-    public override bool CanMove(ChessPiecePosition[] positions, ChessSquares from, ChessSquares to)
+    public override bool CanMove(ChessState state, MoveChessPieceCommand command, [MaybeNullWhen(false)] out ChessPiece piece)
     {
-        return false;
+        throw new NotImplementedException();
     }
 }
 

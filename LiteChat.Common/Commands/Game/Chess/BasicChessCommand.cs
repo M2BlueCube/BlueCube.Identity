@@ -14,7 +14,11 @@ public record JoinGameCommand : BasicChessCommand
 
 public record MoveChessPieceCommand : BasicChessCommand
 {
-    public ChessPieceType Piece { get; init; } = ChessPieceType.None;
     public ChessSquares To { get; init; } = ChessSquares.None;
     public ChessSquares From { get; init; } = ChessSquares.None;
+}
+
+public record PromotePawnCommand : MoveChessPieceCommand
+{
+    public ChessPieceType PieceType { get; init; }
 }

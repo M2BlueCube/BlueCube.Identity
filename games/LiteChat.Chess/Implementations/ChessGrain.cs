@@ -48,7 +48,7 @@ internal class ChessGrain : Grain, IChess
     private Task HandleMoveChessPieceCommand(MoveChessPieceCommand moveChessPieceCommand)
     {
         var piece = _state.GetPiecePosition(moveChessPieceCommand.From);
-        if (piece is null || piece.Piece.Type != moveChessPieceCommand.Piece) return Task.CompletedTask;
+        if (piece is null) return Task.CompletedTask;
 
 
 
