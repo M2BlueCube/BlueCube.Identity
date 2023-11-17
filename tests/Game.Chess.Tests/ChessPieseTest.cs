@@ -26,7 +26,7 @@ public class ChessPieceTest
     public void Vertical_Distance()
     {
         // Arrange
-        
+
         ChessSquares to = ChessSquares.A2;
         ChessSquares from = ChessSquares.A1;
 
@@ -36,7 +36,7 @@ public class ChessPieceTest
         bool resultP = from.VerticalDistance(to, out int valueP);
 
         // Assert
-        
+
         Assert.True(resultP);
         Assert.False(resultD);
 
@@ -48,7 +48,7 @@ public class ChessPieceTest
     public void Horizontal_Distance()
     {
         // Arrange
-        
+
         ChessSquares to = ChessSquares.A2;
         ChessSquares from = ChessSquares.C2;
 
@@ -70,7 +70,7 @@ public class ChessPieceTest
     public void Diagonal_Distance()
     {
         // Arrange
-        
+
         ChessSquares to = ChessSquares.C4;
         ChessSquares from = ChessSquares.A2;
 
@@ -88,4 +88,75 @@ public class ChessPieceTest
         Assert.Equal(0, valueP);
     }
 
+    [Fact]
+    public void GetHorizontalDistance()
+    {
+        ChessSquares from = ChessSquares.A1;
+        ChessSquares to = ChessSquares.B1;
+
+        bool result = from.HorizontalDistance(to, out int distance);
+
+        Assert.True(result);
+        Assert.Equal(1, distance);
+    }
+
+    [Fact]
+    public void GetVerticalDistance()
+    {
+        ChessSquares from = ChessSquares.A1;
+        ChessSquares to = ChessSquares.B1;
+
+        bool result = from.VerticalDistance(to, out int distance);
+
+        Assert.False(result);
+        Assert.Equal(0, distance);
+    }
+
+    [Fact]
+    public void GetDiagonalDistance()
+    {
+        ChessSquares from = ChessSquares.A1;
+        ChessSquares to = ChessSquares.B2;
+
+        bool result = from.DiagonalDistance(to, out int distance);
+
+        Assert.True(result);
+        Assert.Equal(1, distance);
+    }
+
+    [Fact]
+    public void GetHorizontalDistance_Fail()
+    {
+        ChessSquares from = ChessSquares.A1;
+        ChessSquares to = ChessSquares.A2;
+
+        bool result = from.HorizontalDistance(to, out int distance);
+
+        Assert.False(result);
+        Assert.Equal(0, distance);
+    }
+
+    [Fact]
+    public void GetVerticalDistance_Fail()
+    {
+        ChessSquares from = ChessSquares.A1;
+        ChessSquares to = ChessSquares.B1;
+
+        bool result = from.VerticalDistance(to, out int distance);
+
+        Assert.False(result);
+        Assert.Equal(0, distance);
+    }
+
+    [Fact]
+    public void GetDiagonalDistance_Fail()
+    {
+        ChessSquares from = ChessSquares.A1;
+        ChessSquares to = ChessSquares.A2;
+
+        bool result = from.DiagonalDistance(to, out int distance);
+
+        Assert.False(result);
+        Assert.Equal(0, distance);
+    }
 }

@@ -39,7 +39,7 @@ public record ChessSquares(byte X, byte Y)
         var xDistance = square.X - X;
         var yDistance = square.Y - Y;
 
-        if (xDistance == yDistance)
+        if (Math.Abs(xDistance) == Math.Abs(yDistance))
         {
             value = yDistance;
             return true;
