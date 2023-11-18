@@ -1,0 +1,18 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <TargetFramework>net8.0</TargetFramework>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <Nullable>enable</Nullable>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <Folder Include="Commands\Social\Chat\" />
+    <Folder Include="Commands\Game\Mensch\" />
+    <Folder Include="Commands\Game\Poker\" />
+    <Folder Include="Events\Game\Mensch\" />
+    <Folder Include="Events\Game\Poker\" />
+    <Folder Include="Models\Social\" />
+  </ItemGroup>
+
+</Project>

@@ -1,5 +1,4 @@
-﻿
-using LiteChat.Abstraction.Chess.Implementations;
+﻿using LiteChat.Common.Models.Games.Chess;
 using LiteChat.Games;
 
 namespace LiteChat.Chess;
