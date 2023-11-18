@@ -1,25 +1,25 @@
-﻿
-using LiteChat.Common.Models.Games.Chess;
-
-namespace LiteChat.Client;
-
-public partial class MainPage : ContentPage
+﻿namespace LiteChat.Client
 {
-    int count = 0;
-    ChessState chessState;
-
-    public MainPage()
+    public partial class MainPage : ContentPage
     {
-        InitializeComponent();
-        chessState = new ChessState();
+        int count = 0;
+
+        public MainPage()
+        {
+            InitializeComponent();
+        }
+
+        private void OnCounterClicked(object sender, EventArgs e)
+        {
+            count++;
+
+            if (count == 1)
+                CounterBtn.Text = $"Clicked {count} time";
+            else
+                CounterBtn.Text = $"Clicked {count} times";
+
+            SemanticScreenReader.Announce(CounterBtn.Text);
+        }
     }
 
-    private void OnCounterClicked(object sender, EventArgs e)
-    {
-        count = chessState.Version;
-        count++;
-
-        CounterBtn.Text = count == 1 ? $"Clicked {count} time" : $"Clicked {count} times";
-        SemanticScreenReader.Announce(CounterBtn.Text);
-    }
 }
